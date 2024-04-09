@@ -22,7 +22,7 @@ export default function Items() {
   const {cart, setCart} = useContext<cartInterface>(CartContext)
 
   const fetchItems = async () => {
-    const res = await axios.get(process.env.NEXT_PUBLIC_API_URL);
+    const res = await axios.get('https://mks-frontend-challenge-04811e8151e6.herokuapp.com/api/v1/products?page=1&rows=10&sortBy=id&orderBy=DESC');
     console.log(res.data.products);
     return res.data.products; // Return the products array
   }
