@@ -51,7 +51,10 @@ export default function MenuBurger() {
         });
         setCart(newCart);
     }
-    const total = cart.reduce((acc, product) => acc + (product.price * product.qtd), 0);
+
+    const total = cart.reduce((acc, product) => {
+        return acc + (Number(product.price) * Number(product.qtd));
+    }, 0);
 
     return (
         <Container>
@@ -59,19 +62,27 @@ export default function MenuBurger() {
             <IoMdCloseCircle onClick={toggleMenu} />
             <Ul>
                 {cart.map((product: {
-                    qtd: string | number  | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined;
-                    price: ReactNode;
-                    photo: string | undefined; id: React.Key | null | undefined; name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined;
+                    qtd: string | number | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined;
+                    price: ReactNode | null | undefined;
+                    photo: string | undefined;
+                    id: React.Key | null | undefined;
+                    name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined;
                 }) => (
                     <li key={product.id}>
-                        <IoMdCloseCircle onClick={()=>removeItem(product.id)} />
+                        <IoMdCloseCircle onClick={() => removeItem(product.id)} />
                         <img src={product.photo} />
                         <Name>{product.name}</Name>
                         <Qtt>qnt</Qtt>
-                        <Quantity> <span onClick={() => reduceQtd(product.id)} >-</span><div/>{product.qtd} <div/><span onClick={() => increaseQtd(product.id)} >+</span></Quantity>
-                        <Price>R${product.price * product.qtd} </Price>
-                    </li>)
-                )}
+                        <Quantity>
+                            <span onClick={() => reduceQtd(product.id)}>-</span>
+                            <div />
+                            {product.qtd}
+                            <div />
+                            <span onClick={() => increaseQtd(product.id)}>+</span>
+                        </Quantity>
+                        <Price>R${(Number(product.price)) * (Number(product.qtd))}</Price>
+                    </li>
+                ))}
             </Ul>
             <Total><div>Total:  </div><div>R${total}</div></Total>
             <Finish>Finalizar Compra</Finish>
